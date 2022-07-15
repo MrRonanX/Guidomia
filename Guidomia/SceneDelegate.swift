@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = GuidomiaNavigationController(rootViewController: ViewController())
+        window?.rootViewController = GuidomiaNavigationController(rootViewController: MainVC())
         window?.makeKeyAndVisible()
     }
 

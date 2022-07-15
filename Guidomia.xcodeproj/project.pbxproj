@@ -10,9 +10,12 @@
 		34775A0028817F3C00F01033 /* SairaStencilOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 347759FF28817F3C00F01033 /* SairaStencilOne-Regular.ttf */; };
 		34775A032881848000F01033 /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A022881848000F01033 /* UIColor + ext.swift */; };
 		34775A052881850800F01033 /* GuidomiaNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A042881850800F01033 /* GuidomiaNavigationController.swift */; };
+		34775A0728818A7600F01033 /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A0628818A7600F01033 /* UIView + ext.swift */; };
+		34775A0928818B6100F01033 /* MainPageLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A0828818B6100F01033 /* MainPageLogo.swift */; };
+		34775A0D2881948600F01033 /* car_list.json in Resources */ = {isa = PBXBuildFile; fileRef = 34775A0C2881948600F01033 /* car_list.json */; };
 		34EAC9992881784F00A483B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC9982881784F00A483B8 /* AppDelegate.swift */; };
 		34EAC99B2881784F00A483B8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99A2881784F00A483B8 /* SceneDelegate.swift */; };
-		34EAC99D2881784F00A483B8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99C2881784F00A483B8 /* ViewController.swift */; };
+		34EAC99D2881784F00A483B8 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99C2881784F00A483B8 /* MainVC.swift */; };
 		34EAC9A22881785000A483B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34EAC9A12881785000A483B8 /* Assets.xcassets */; };
 		34EAC9A52881785000A483B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34EAC9A32881785000A483B8 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -21,10 +24,13 @@
 		347759FF28817F3C00F01033 /* SairaStencilOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SairaStencilOne-Regular.ttf"; sourceTree = "<group>"; };
 		34775A022881848000F01033 /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
 		34775A042881850800F01033 /* GuidomiaNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidomiaNavigationController.swift; sourceTree = "<group>"; };
+		34775A0628818A7600F01033 /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
+		34775A0828818B6100F01033 /* MainPageLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageLogo.swift; sourceTree = "<group>"; };
+		34775A0C2881948600F01033 /* car_list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_list.json; sourceTree = "<group>"; };
 		34EAC9952881784F00A483B8 /* Guidomia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guidomia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34EAC9982881784F00A483B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34EAC99A2881784F00A483B8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		34EAC99C2881784F00A483B8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		34EAC99C2881784F00A483B8 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		34EAC9A12881785000A483B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34EAC9A42881785000A483B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		34EAC9A62881785000A483B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +55,14 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		34775A0E2881949200F01033 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				34775A0C2881948600F01033 /* car_list.json */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
 		34EAC98C2881784F00A483B8 = {
 			isa = PBXGroup;
 			children = (
@@ -68,15 +82,18 @@
 		34EAC9972881784F00A483B8 /* Guidomia */ = {
 			isa = PBXGroup;
 			children = (
+				34775A0E2881949200F01033 /* json */,
 				34775A0128817F4200F01033 /* fonts */,
 				34EAC9982881784F00A483B8 /* AppDelegate.swift */,
 				34EAC99A2881784F00A483B8 /* SceneDelegate.swift */,
-				34EAC99C2881784F00A483B8 /* ViewController.swift */,
+				34EAC99C2881784F00A483B8 /* MainVC.swift */,
 				34775A042881850800F01033 /* GuidomiaNavigationController.swift */,
 				34775A022881848000F01033 /* UIColor + ext.swift */,
+				34775A0628818A7600F01033 /* UIView + ext.swift */,
 				34EAC9A12881785000A483B8 /* Assets.xcassets */,
 				34EAC9A32881785000A483B8 /* LaunchScreen.storyboard */,
 				34EAC9A62881785000A483B8 /* Info.plist */,
+				34775A0828818B6100F01033 /* MainPageLogo.swift */,
 			);
 			path = Guidomia;
 			sourceTree = "<group>";
@@ -141,6 +158,7 @@
 			files = (
 				34775A0028817F3C00F01033 /* SairaStencilOne-Regular.ttf in Resources */,
 				34EAC9A52881785000A483B8 /* LaunchScreen.storyboard in Resources */,
+				34775A0D2881948600F01033 /* car_list.json in Resources */,
 				34EAC9A22881785000A483B8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,10 +170,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34EAC99D2881784F00A483B8 /* ViewController.swift in Sources */,
+				34EAC99D2881784F00A483B8 /* MainVC.swift in Sources */,
 				34EAC9992881784F00A483B8 /* AppDelegate.swift in Sources */,
 				34EAC99B2881784F00A483B8 /* SceneDelegate.swift in Sources */,
 				34775A032881848000F01033 /* UIColor + ext.swift in Sources */,
+				34775A0928818B6100F01033 /* MainPageLogo.swift in Sources */,
+				34775A0728818A7600F01033 /* UIView + ext.swift in Sources */,
 				34775A052881850800F01033 /* GuidomiaNavigationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

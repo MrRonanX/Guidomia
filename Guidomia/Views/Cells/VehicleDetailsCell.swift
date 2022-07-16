@@ -44,7 +44,7 @@ final class VehicleDetailsCell: UITableViewCell {
             title.font = .systemFont(ofSize: 21, weight: .semibold)
             title.textColor = .black.withAlphaComponent(0.45)
         } else {
-            let bulletText = NSAttributedStringHelper.createBulletedList(fromStringArray: text, font: .systemFont(ofSize: 18, weight: .regular))
+            let bulletText = NSAttributedStringHelper.createBulletedList(fromStringArray: text, font: .systemFont(ofSize: 18, weight: .bold))
             title.attributedText = bulletText
 
         }

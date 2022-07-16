@@ -11,6 +11,7 @@ class MainVC: UIViewController {
     
     private let mainLogo = MainPageLogo()
     private var tableView = UITableView(frame: .zero, style: .grouped)
+    private var firstLoad = true
     
     private var vehicles = [SectionModel]()
     
@@ -24,6 +25,13 @@ class MainVC: UIViewController {
         addImage()
         setTableView()
         decodeJson()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard firstLoad else { return }
+        sectionTapped(0)
+        firstLoad = false
     }
     
     
@@ -75,6 +83,7 @@ class MainVC: UIViewController {
         tableView.register(SeparatorCell.self, forCellReuseIdentifier: SeparatorCell.reuseID)
         
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -92,6 +101,7 @@ class MainVC: UIViewController {
                 let jsonData = try JSONDecoder().decode([VehicleModel].self, from: data)
                 vehicles = jsonData.compactMap { SectionModel(vehicle: $0)}
                 tableView.reloadData()
+
             } catch {
                 print("Error")
             }
@@ -171,13 +181,34 @@ extension MainVC: VehicleSectionCellDelegate {
     func sectionIsClosed(at indexPath: [IndexPath]) {
         guard let section = indexPath.first?.section else { return }
         tableView.deleteRows(at: indexPath, with: .fade)
-        tableView.reloadSections([section], with: .automatic)
+        tableView.reloadSections([section], with: .fade)
     }
     
     func sectionIsOpened(at indexPath: [IndexPath]) {
         guard let section = indexPath.first?.section else { return }
+        
         tableView.insertRows(at: indexPath, with: .fade)
-        tableView.reloadSections([section], with: .automatic)
+        tableView.reloadSections([section], with: .fade)
+        closeOtherSections(except: section)
+        
+    }
+    
+    func closeOtherSections(except section: Int) {
+        var expendedSection = section
+        for i in 0..<vehicles.count {
+            if i == section { continue }
+            if vehicles[i].expended {
+                vehicles[i].expended = false
+                expendedSection = i
+                break
+            }
+        }
+        
+        guard expendedSection != section else { return }
+        
+        let vehicle = vehicles[expendedSection]
+        let indexPaths = (0..<vehicle.vehicle.bulletPoints.count).map { IndexPath(row: $0, section: expendedSection) }
+        sectionIsClosed(at: indexPaths)
     }
 }
 

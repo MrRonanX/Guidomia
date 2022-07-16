@@ -7,26 +7,39 @@
 
 import UIKit
 
-final class VehicleCell: UITableViewCell {
+protocol VehicleSectionCellDelegate {
+    func sectionTapped(_ section: Int)
+}
+
+final class VehicleSectionCell: UITableViewHeaderFooterView {
     
-    static let reuseID = "VehicleCell"
+    static let reuseID = "VehicleSectionCell"
     private let padding = 20.0
     
     private let vehicleImage = UIImageView()
     private let vehicleModel = UILabel()
     private let vehiclePrice = UILabel()
-    private let rating = RatingView()
+    private var rating = RatingView()
+    
+    private var section: Int?
+    private var ratingWidthConstraint: NSLayoutConstraint?
+    
+    var delegate: VehicleSectionCellDelegate?
     
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupViews()
     }
     
-    func addData(vehicle: VehicleModel) {
+    
+    func addData(vehicle: VehicleModel, section: Int) {
+        self.section = section
         vehicleImage.image = UIImage(named: vehicle.imageName)
         vehiclePrice.text = "Price: " + vehicle.displayedPrice
         vehicleModel.text = vehicle.vehicleName
@@ -35,23 +48,24 @@ final class VehicleCell: UITableViewCell {
     }
     
     func setupViews() {
-        backgroundColor = .appLightGray
+        contentView.backgroundColor = .appLightGray
         setupImage()
         setupModel()
         setupPrice()
-        addSeparator()
+        addGestureRecognizer()
     }
     
     private func setupImage() {
+        let screenWidth = UIScreen.main.bounds.width
         vehicleImage.translatesAutoresizingMaskIntoConstraints = false
         vehicleImage.contentMode = .scaleToFill
-        addSubview(vehicleImage)
+        contentView.addSubview(vehicleImage)
         
         NSLayoutConstraint.activate([
-            vehicleImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            vehicleImage.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            vehicleImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.33),
-            vehicleImage.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.18)
+            vehicleImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            vehicleImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
+            vehicleImage.widthAnchor.constraint(equalToConstant: screenWidth * 0.33),
+            vehicleImage.heightAnchor.constraint(equalToConstant: screenWidth * 0.18)
         ])
     }
     
@@ -59,12 +73,12 @@ final class VehicleCell: UITableViewCell {
         vehicleModel.textColor = .black.withAlphaComponent(0.45)
         vehicleModel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         vehicleModel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(vehicleModel)
+        contentView.addSubview(vehicleModel)
         
         NSLayoutConstraint.activate([
             vehicleModel.leadingAnchor.constraint(equalTo: vehicleImage.trailingAnchor, constant: padding),
             vehicleModel.topAnchor.constraint(equalTo: vehicleImage.topAnchor),
-            vehicleModel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
+            vehicleModel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
         ])
     }
     
@@ -72,36 +86,39 @@ final class VehicleCell: UITableViewCell {
         vehiclePrice.textColor = .black.withAlphaComponent(0.45)
         vehiclePrice.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
         vehiclePrice.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(vehiclePrice)
+        contentView.addSubview(vehiclePrice)
         
         NSLayoutConstraint.activate([
             vehiclePrice.leadingAnchor.constraint(equalTo: vehicleImage.trailingAnchor, constant: padding),
             vehiclePrice.topAnchor.constraint(equalTo: vehicleModel.bottomAnchor),
-            vehiclePrice.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
+            vehiclePrice.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
         ])
     }
     
     private func setupRating(with stars: Int) {
-        addSubview(rating)
+        rating.removeFromSuperview()
+        rating = RatingView()
+        rating.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(rating)
         
         NSLayoutConstraint.activate([
             rating.leadingAnchor.constraint(equalTo: vehicleImage.trailingAnchor, constant: padding),
             rating.topAnchor.constraint(equalTo: vehiclePrice.bottomAnchor, constant: padding / 3),
-            rating.widthAnchor.constraint(equalToConstant: padding * Double(stars) + Double(stars - 1) * 10),
+            rating.widthAnchor.constraint(equalToConstant: padding * Double(stars) + Double(stars) * 10),
             rating.heightAnchor.constraint(equalToConstant: padding)
         ])
     }
     
-    private func addSeparator() {
-        let separator = SeparatorLine()
-        addSubview(separator)
-        
-        NSLayoutConstraint.activate([
-            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
-            separator.bottomAnchor.constraint(equalTo: bottomAnchor),
-            separator.heightAnchor.constraint(equalToConstant: 24)
-        ])
+    private func addGestureRecognizer() {
+        isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(sectionTapped))
+        addGestureRecognizer(gesture)
+    }
+    
+    @objc private func sectionTapped() {
+        guard let section = section else { return }
+        delegate?.sectionTapped(section)
+
     }
 }
 
@@ -118,9 +135,8 @@ fileprivate final class RatingView: UIStackView {
         baseSetup()
     }
     
-    
-    
     func createRating(stars: Int) {
+        arrangedSubviews.forEach { $0.removeFromSuperview() }
         for _ in 0..<stars {
             let imageView = UIImageView()
             imageView.image = UIImage(systemName: "star.fill")
@@ -137,36 +153,6 @@ fileprivate final class RatingView: UIStackView {
         distribution = .fillEqually
         spacing = 10
     }
-    
 }
 
-fileprivate final class SeparatorLine: UIView {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .white
-        translatesAutoresizingMaskIntoConstraints = false
-        createSeparator()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        createSeparator()
-    }
-    
-    private func createSeparator() {
-        let separator = UIView()
-        separator.backgroundColor = .appOrange
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        
-        addSubview(separator)
-        
-        NSLayoutConstraint.activate([
-            separator.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            separator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            separator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            separator.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-            separator.heightAnchor.constraint(equalToConstant: 4)
-        ])
-    }
-}
+ 

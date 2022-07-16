@@ -10,14 +10,10 @@ import UIKit
 class MainVC: UIViewController {
     
     private let mainLogo = MainPageLogo()
-    private let tableView = UITableView()
+    private var tableView = UITableView(frame: .zero, style: .grouped)
     
-    private var vehicles = [VehicleModel]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-
+    private var vehicles = [SectionModel]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,13 +67,14 @@ class MainVC: UIViewController {
     
     private func setTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
+        tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(VehicleCell.self, forCellReuseIdentifier: VehicleCell.reuseID)
+        tableView.register(VehicleSectionCell.self, forHeaderFooterViewReuseIdentifier: VehicleSectionCell.reuseID)
+        tableView.register(VehicleDetailsCell.self, forCellReuseIdentifier: VehicleDetailsCell.reuseID)
+        tableView.register(SeparatorCell.self, forCellReuseIdentifier: SeparatorCell.reuseID)
         
         tableView.separatorStyle = .none
-        
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -93,7 +90,8 @@ class MainVC: UIViewController {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                 let jsonData = try JSONDecoder().decode([VehicleModel].self, from: data)
-                vehicles = jsonData
+                vehicles = jsonData.compactMap { SectionModel(vehicle: $0)}
+                tableView.reloadData()
             } catch {
                 print("Error")
             }
@@ -102,29 +100,89 @@ class MainVC: UIViewController {
 }
 
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         vehicles.count
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let section = vehicles[section]
+        return section.expended ? section.vehicle.bulletPoints.count + 1 : 1
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        view.frame.width * 0.18 + 40 + 24
+        let section = vehicles[indexPath.section]
+        
+        if !section.expended || (section.expended && section.vehicle.bulletPoints.count == indexPath.row) {
+            return 21
+        }
+        
+        let row = section.vehicle.bulletPoints[indexPath.row]
+        return row.height(forConstrainedWidth: view.frame.width - 60, font: .systemFont(ofSize: 21, weight: .semibold)) + 16
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        view.frame.width * 0.18 + 40
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: VehicleCell.reuseID) as! VehicleCell
-        let vehicle = vehicles[indexPath.row]
-        cell.setupViews()
-        cell.addData(vehicle: vehicle)
+        let section = vehicles[indexPath.section]
+        
+        if !section.expended || (section.expended && section.vehicle.bulletPoints.count == indexPath.row) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SeparatorCell.reuseID) as! SeparatorCell
+            return cell
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: VehicleDetailsCell.reuseID) as! VehicleDetailsCell
+        
+        let cellText = section.vehicle.bulletPoints[indexPath.row]
+        cell.setTitle(with: cellText)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let sectionView = tableView.dequeueReusableHeaderFooterView(withIdentifier: VehicleSectionCell.reuseID) as! VehicleSectionCell
+        let currentSection = vehicles[section]
+        
+        sectionView.addData(vehicle: currentSection.vehicle, section: section)
+        sectionView.delegate = self
+        
+        return sectionView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
-    
 }
+
+extension MainVC: VehicleSectionCellDelegate {
+    func sectionTapped(_ section: Int) {
+        vehicles[section].expended.toggle()
+        let vehicle = vehicles[section]
+        let indexPaths = (0..<vehicle.vehicle.bulletPoints.count).map { IndexPath(row: $0, section: section) }
+        
+        vehicle.expended ? sectionIsOpened(at: indexPaths) : sectionIsClosed(at: indexPaths)
+    }
+    
+    
+    func sectionIsClosed(at indexPath: [IndexPath]) {
+        guard let section = indexPath.first?.section else { return }
+        tableView.deleteRows(at: indexPath, with: .fade)
+        tableView.reloadSections([section], with: .automatic)
+    }
+    
+    func sectionIsOpened(at indexPath: [IndexPath]) {
+        guard let section = indexPath.first?.section else { return }
+        tableView.insertRows(at: indexPath, with: .fade)
+        tableView.reloadSections([section], with: .automatic)
+    }
+}
+
+
+
 
 
 

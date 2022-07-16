@@ -76,10 +76,7 @@ class MainVC: UIViewController {
         tableView.dataSource = self
         tableView.register(VehicleCell.self, forCellReuseIdentifier: VehicleCell.reuseID)
         
-        tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .appOrange
-        tableView.separatorInset = UIEdgeInsets(top: 3, left: 10, bottom: 3, right: 10)
-        
+        tableView.separatorStyle = .none
         
         view.addSubview(tableView)
         
@@ -110,7 +107,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.width * 0.18 + 40
+        view.frame.width * 0.18 + 40 + 24
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -130,150 +127,10 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-final class VehicleCell: UITableViewCell {
-    
-    static let reuseID = "VehicleCell"
-    private let padding = 20.0
-    
-    private let vehicleImage = UIImageView()
-    private let vehicleModel = UILabel()
-    private let vehiclePrice = UILabel()
-    private let rating = RatingView()
-    
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    func addData(vehicle: VehicleModel) {
-        vehicleImage.image = UIImage(named: vehicle.imageName)
-        vehiclePrice.text = String(vehicle.customerPrice)
-        vehicleModel.text = vehicle.make
-    }
-    
-    func setupViews() {
-        backgroundColor = .appLightGray
-        setupImage()
-        setupModel()
-        setupPrice()
-    }
-    
-    private func setupImage() {
-        vehicleImage.translatesAutoresizingMaskIntoConstraints = false
-        vehicleImage.contentMode = .scaleToFill
-        addSubview(vehicleImage)
-        
-        NSLayoutConstraint.activate([
-            vehicleImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            vehicleImage.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            vehicleImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.33),
-            vehicleImage.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.18)
-        ])
-    }
-    
-    private func setupModel() {
-        vehicleModel.textColor = .black.withAlphaComponent(0.45)
-        vehicleModel.font = UIFont.preferredFont(forTextStyle: .title1)
-        vehicleModel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(vehicleModel)
-        
-        NSLayoutConstraint.activate([
-            vehicleModel.leadingAnchor.constraint(equalTo: vehicleImage.trailingAnchor, constant: padding),
-            vehicleModel.topAnchor.constraint(equalTo: vehicleImage.topAnchor),
-            vehicleModel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
-        ])
-    }
-    
-    private func setupPrice() {
-        vehiclePrice.textColor = .black.withAlphaComponent(0.45)
-        vehiclePrice.font = UIFont.preferredFont(forTextStyle: .title3)
-        vehiclePrice.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(vehiclePrice)
-        
-        NSLayoutConstraint.activate([
-            vehiclePrice.leadingAnchor.constraint(equalTo: vehicleImage.trailingAnchor, constant: padding),
-            vehiclePrice.topAnchor.constraint(equalTo: vehicleModel.bottomAnchor, constant: padding / 2),
-            vehiclePrice.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
-        ])
-    }
-    
-    private func setupRating() {
-        addSubview(rating)
-        
-        NSLayoutConstraint.activate([
-            rating.leadingAnchor.constraint(equalTo: vehicleImage.leadingAnchor, constant: padding),
-            rating.topAnchor.constraint(equalTo: vehiclePrice.bottomAnchor, constant: padding / 2),
-            rating.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
-        ])
-    }
-}
-
-final class RatingView: UIStackView {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    
-    
-    func createRating(stars: Int) {
-        axis = .horizontal
-    }
-    
-    
-}
-
-final class SeparatorLine: UIView {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-}
-
-
-
-enum Fonts {
-    static let stencil = "SairaStencilOne-Regular"
-}
-
-enum Images {
-    static let appLogoImage = "Tacoma"
-}
 
 
 
 
 
-struct VehicleModel: Codable {
-    let consList: [String]
-    let customerPrice: Double
-    let make: String
-    let marketPrice: Double
-    let model: String
-    let prosList: [String]
-    let rating: Int
-    
-    var imageName: String {
-        switch make {
-        case "Land Rover":      return "Range_Rover"
-        case "Alpine":          return "Alpine_roadster"
-        case "BMW":             return "BMW_330i"
-        case "Mercedes Benz":   return "Mercedez_benz_GLC"
-        default:                return "placeholder"
-        }
-    }
-}
+
+

@@ -13,6 +13,9 @@
 		34775A0728818A7600F01033 /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A0628818A7600F01033 /* UIView + ext.swift */; };
 		34775A0928818B6100F01033 /* MainPageLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A0828818B6100F01033 /* MainPageLogo.swift */; };
 		34775A0D2881948600F01033 /* car_list.json in Resources */ = {isa = PBXBuildFile; fileRef = 34775A0C2881948600F01033 /* car_list.json */; };
+		34775A11288273B100F01033 /* VehicleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A10288273B100F01033 /* VehicleModel.swift */; };
+		34775A15288273DB00F01033 /* VehicleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A14288273DB00F01033 /* VehicleCell.swift */; };
+		34775A172882741E00F01033 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A162882741E00F01033 /* Constants.swift */; };
 		34EAC9992881784F00A483B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC9982881784F00A483B8 /* AppDelegate.swift */; };
 		34EAC99B2881784F00A483B8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99A2881784F00A483B8 /* SceneDelegate.swift */; };
 		34EAC99D2881784F00A483B8 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99C2881784F00A483B8 /* MainVC.swift */; };
@@ -27,6 +30,9 @@
 		34775A0628818A7600F01033 /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
 		34775A0828818B6100F01033 /* MainPageLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageLogo.swift; sourceTree = "<group>"; };
 		34775A0C2881948600F01033 /* car_list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_list.json; sourceTree = "<group>"; };
+		34775A10288273B100F01033 /* VehicleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleModel.swift; sourceTree = "<group>"; };
+		34775A14288273DB00F01033 /* VehicleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCell.swift; sourceTree = "<group>"; };
+		34775A162882741E00F01033 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		34EAC9952881784F00A483B8 /* Guidomia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guidomia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34EAC9982881784F00A483B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34EAC99A2881784F00A483B8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +69,30 @@
 			path = json;
 			sourceTree = "<group>";
 		};
+		34775A0F288273A400F01033 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				34775A10288273B100F01033 /* VehicleModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		34775A12288273CC00F01033 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				34775A13288273D200F01033 /* Cells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		34775A13288273D200F01033 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				34775A14288273DB00F01033 /* VehicleCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		34EAC98C2881784F00A483B8 = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +112,8 @@
 		34EAC9972881784F00A483B8 /* Guidomia */ = {
 			isa = PBXGroup;
 			children = (
+				34775A12288273CC00F01033 /* Views */,
+				34775A0F288273A400F01033 /* Model */,
 				34775A0E2881949200F01033 /* json */,
 				34775A0128817F4200F01033 /* fonts */,
 				34EAC9982881784F00A483B8 /* AppDelegate.swift */,
@@ -94,6 +126,7 @@
 				34EAC9A32881785000A483B8 /* LaunchScreen.storyboard */,
 				34EAC9A62881785000A483B8 /* Info.plist */,
 				34775A0828818B6100F01033 /* MainPageLogo.swift */,
+				34775A162882741E00F01033 /* Constants.swift */,
 			);
 			path = Guidomia;
 			sourceTree = "<group>";
@@ -175,7 +208,10 @@
 				34EAC99B2881784F00A483B8 /* SceneDelegate.swift in Sources */,
 				34775A032881848000F01033 /* UIColor + ext.swift in Sources */,
 				34775A0928818B6100F01033 /* MainPageLogo.swift in Sources */,
+				34775A172882741E00F01033 /* Constants.swift in Sources */,
 				34775A0728818A7600F01033 /* UIView + ext.swift in Sources */,
+				34775A15288273DB00F01033 /* VehicleCell.swift in Sources */,
+				34775A11288273B100F01033 /* VehicleModel.swift in Sources */,
 				34775A052881850800F01033 /* GuidomiaNavigationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

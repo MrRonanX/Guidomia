@@ -10,11 +10,12 @@ import UIKit
 class MainVC: UIViewController {
     
     private let mainLogo = MainPageLogo()
-    private var tableView = UITableView(frame: .zero, style: .grouped)
+    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let filtersView = FiltersView()
     private var firstLoad = true
     
+    private var backupVehicles = [SectionModel]()
     private var vehicles = [SectionModel]()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,7 @@ class MainVC: UIViewController {
         setTitle()
         setRightBarItem()
         addImage()
+        addFilters()
         setTableView()
         decodeJson()
     }
@@ -32,6 +34,11 @@ class MainVC: UIViewController {
         guard firstLoad else { return }
         sectionTapped(0)
         firstLoad = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        filtersView.addShadows()
     }
     
     
@@ -73,11 +80,24 @@ class MainVC: UIViewController {
         ])
     }
     
+    private func addFilters() {
+        view.addSubview(filtersView)
+        filtersView.filterTapped = filterButtonTapped
+        
+        NSLayoutConstraint.activate([
+            filtersView.topAnchor.constraint(equalTo: mainLogo.bottomAnchor),
+            filtersView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            filtersView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filtersView.heightAnchor.constraint(equalToConstant: 235)
+        ])
+    }
+    
     private func setTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
+        
         tableView.register(VehicleSectionCell.self, forHeaderFooterViewReuseIdentifier: VehicleSectionCell.reuseID)
         tableView.register(VehicleDetailsCell.self, forCellReuseIdentifier: VehicleDetailsCell.reuseID)
         tableView.register(SeparatorCell.self, forCellReuseIdentifier: SeparatorCell.reuseID)
@@ -87,7 +107,7 @@ class MainVC: UIViewController {
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: mainLogo.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: filtersView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -100,11 +120,38 @@ class MainVC: UIViewController {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                 let jsonData = try JSONDecoder().decode([VehicleModel].self, from: data)
                 vehicles = jsonData.compactMap { SectionModel(vehicle: $0)}
+                backupVehicles = vehicles
                 tableView.reloadData()
 
             } catch {
                 print("Error")
             }
+        }
+    }
+    
+    private func filterButtonTapped(_ button: UIButton) {
+        let dropdownView = DropdownView()
+        dropdownView.frame = view.bounds
+        let correctFrame = button.convert(button.bounds, to: view)
+        view.addSubview(dropdownView)
+        dropdownView.delegate = self
+        dropdownView.addDatasource(getFilterList(from: button))
+        dropdownView.setInitialFrame(correctFrame)
+    }
+    
+    private func getFilterList(from button: UIButton) -> [String] {
+        switch button.tag {
+        case 0:
+            var filterList = ["Any make"]
+            filterList.append(contentsOf: backupVehicles.map { $0.vehicle.make })
+            return filterList
+            
+        case 1:
+            var filterList = ["Any model"]
+            filterList.append(contentsOf: backupVehicles.map { $0.vehicle.model })
+            return filterList
+            
+        default: return [String]()
         }
     }
 }
@@ -212,14 +259,48 @@ extension MainVC: VehicleSectionCellDelegate {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
+extension MainVC: DropdownViewDelegate {
+    func filterSelected(filter: String) {
+        var makeFilters = backupVehicles.map { $0.vehicle.make }
+        var modelFilters = backupVehicles.map { $0.vehicle.model }
+        
+        makeFilters.append("Any make")
+        modelFilters.append("Any model")
+        
+        if makeFilters.contains(filter) {
+            filtersView.setMakeFilter(filter)
+            filtersView.setModelFilter("Any model")
+            applyMakeFilter(filter)
+        } else {
+            filtersView.setModelFilter(filter)
+            
+            if filter != "Any model" {
+                filtersView.setMakeFilter(vehicles.filter { $0.vehicle.model == filter}.first?.vehicle.make ?? "Any make")
+            }
+            applyModelFilter(filter)
+        }
+    }
+    
+    private func applyMakeFilter(_ filter: String) {
+        guard filter != "Any make" else {
+            vehicles = backupVehicles
+            tableView.reloadData()
+            return
+        }
+        
+        vehicles = backupVehicles.filter { $0.vehicle.make == filter }
+        tableView.reloadData()
+    }
+    
+    private func applyModelFilter(_ filter: String) {
+        guard filter != "Any model" else {
+            vehicles = backupVehicles
+            tableView.reloadData()
+            return
+        }
+        
+        vehicles = backupVehicles.filter { $0.vehicle.model == filter }
+        tableView.reloadData()
+    }
+}
 

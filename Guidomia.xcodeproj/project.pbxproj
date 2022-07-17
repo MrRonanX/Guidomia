@@ -19,6 +19,9 @@
 		34775A1928828DF600F01033 /* String + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A1828828DF600F01033 /* String + ext.swift */; };
 		34775A1B2882D5E800F01033 /* VehicleDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A1A2882D5E800F01033 /* VehicleDetailsCell.swift */; };
 		34775A1D2882D5FE00F01033 /* SeparatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A1C2882D5FE00F01033 /* SeparatorCell.swift */; };
+		34775A202883D25700F01033 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A1F2883D25700F01033 /* FilterButton.swift */; };
+		34775A232883D28700F01033 /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A222883D28700F01033 /* FiltersView.swift */; };
+		34775A252883F28200F01033 /* DropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A242883F28200F01033 /* DropdownView.swift */; };
 		34EAC9992881784F00A483B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC9982881784F00A483B8 /* AppDelegate.swift */; };
 		34EAC99B2881784F00A483B8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99A2881784F00A483B8 /* SceneDelegate.swift */; };
 		34EAC99D2881784F00A483B8 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99C2881784F00A483B8 /* MainVC.swift */; };
@@ -39,6 +42,9 @@
 		34775A1828828DF600F01033 /* String + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + ext.swift"; sourceTree = "<group>"; };
 		34775A1A2882D5E800F01033 /* VehicleDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailsCell.swift; sourceTree = "<group>"; };
 		34775A1C2882D5FE00F01033 /* SeparatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorCell.swift; sourceTree = "<group>"; };
+		34775A1F2883D25700F01033 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
+		34775A222883D28700F01033 /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
+		34775A242883F28200F01033 /* DropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownView.swift; sourceTree = "<group>"; };
 		34EAC9952881784F00A483B8 /* Guidomia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guidomia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34EAC9982881784F00A483B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34EAC99A2881784F00A483B8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +92,8 @@
 		34775A12288273CC00F01033 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				34775A212883D27900F01033 /* Custom */,
+				34775A1E2883D24F00F01033 /* Buttons */,
 				34775A13288273D200F01033 /* Cells */,
 			);
 			path = Views;
@@ -99,6 +107,24 @@
 				34775A1C2882D5FE00F01033 /* SeparatorCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		34775A1E2883D24F00F01033 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				34775A1F2883D25700F01033 /* FilterButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		34775A212883D27900F01033 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				34775A0828818B6100F01033 /* MainPageLogo.swift */,
+				34775A222883D28700F01033 /* FiltersView.swift */,
+				34775A242883F28200F01033 /* DropdownView.swift */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		34EAC98C2881784F00A483B8 = {
@@ -134,7 +160,6 @@
 				34EAC9A12881785000A483B8 /* Assets.xcassets */,
 				34EAC9A32881785000A483B8 /* LaunchScreen.storyboard */,
 				34EAC9A62881785000A483B8 /* Info.plist */,
-				34775A0828818B6100F01033 /* MainPageLogo.swift */,
 				34775A162882741E00F01033 /* Constants.swift */,
 			);
 			path = Guidomia;
@@ -216,6 +241,8 @@
 				34EAC99D2881784F00A483B8 /* MainVC.swift in Sources */,
 				34EAC9992881784F00A483B8 /* AppDelegate.swift in Sources */,
 				34EAC99B2881784F00A483B8 /* SceneDelegate.swift in Sources */,
+				34775A232883D28700F01033 /* FiltersView.swift in Sources */,
+				34775A252883F28200F01033 /* DropdownView.swift in Sources */,
 				34775A1D2882D5FE00F01033 /* SeparatorCell.swift in Sources */,
 				34775A032881848000F01033 /* UIColor + ext.swift in Sources */,
 				34775A0928818B6100F01033 /* MainPageLogo.swift in Sources */,
@@ -225,6 +252,7 @@
 				34775A1B2882D5E800F01033 /* VehicleDetailsCell.swift in Sources */,
 				34775A11288273B100F01033 /* VehicleModel.swift in Sources */,
 				34775A052881850800F01033 /* GuidomiaNavigationController.swift in Sources */,
+				34775A202883D25700F01033 /* FilterButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

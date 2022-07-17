@@ -32,13 +32,6 @@ final class FiltersView: UIView {
         setupViews()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        modelFilterButton.layer.shadowRadius = 3
-        modelFilterButton.layer.shadowOpacity = 0.7
-        modelFilterButton.layer.shadowPath = UIBezierPath(rect: modelFilterButton.bounds).cgPath
-    }
-    
     private func setupViews() {
         backgroundColor = .white
         setupInnerView()

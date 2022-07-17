@@ -21,7 +21,6 @@ final class SeparatorCell: UITableViewCell {
         addSeparator()
     }
     
-    
     private func addSeparator() {
         let separator = SeparatorLine()
         contentView.addSubview(separator)

@@ -24,6 +24,7 @@
 		34775A252883F28200F01033 /* DropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A242883F28200F01033 /* DropdownView.swift */; };
 		34775A352884047700F01033 /* PersistanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A342884047700F01033 /* PersistanceManager.swift */; };
 		34775A372884087A00F01033 /* UIViewController + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A362884087A00F01033 /* UIViewController + ext.swift */; };
+		34775A3928840AB400F01033 /* NSAttributedStringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34775A3828840AB400F01033 /* NSAttributedStringHelper.swift */; };
 		34EAC9992881784F00A483B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC9982881784F00A483B8 /* AppDelegate.swift */; };
 		34EAC99B2881784F00A483B8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99A2881784F00A483B8 /* SceneDelegate.swift */; };
 		34EAC99D2881784F00A483B8 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EAC99C2881784F00A483B8 /* MainVC.swift */; };
@@ -49,6 +50,7 @@
 		34775A242883F28200F01033 /* DropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownView.swift; sourceTree = "<group>"; };
 		34775A342884047700F01033 /* PersistanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceManager.swift; sourceTree = "<group>"; };
 		34775A362884087A00F01033 /* UIViewController + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + ext.swift"; sourceTree = "<group>"; };
+		34775A3828840AB400F01033 /* NSAttributedStringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringHelper.swift; sourceTree = "<group>"; };
 		34EAC9952881784F00A483B8 /* Guidomia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guidomia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34EAC9982881784F00A483B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34EAC99A2881784F00A483B8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				34775A162882741E00F01033 /* Constants.swift */,
+				34775A3828840AB400F01033 /* NSAttributedStringHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				34775A352884047700F01033 /* PersistanceManager.swift in Sources */,
 				34EAC99B2881784F00A483B8 /* SceneDelegate.swift in Sources */,
 				34775A232883D28700F01033 /* FiltersView.swift in Sources */,
+				34775A3928840AB400F01033 /* NSAttributedStringHelper.swift in Sources */,
 				34775A252883F28200F01033 /* DropdownView.swift in Sources */,
 				34775A1D2882D5FE00F01033 /* SeparatorCell.swift in Sources */,
 				34775A032881848000F01033 /* UIColor + ext.swift in Sources */,

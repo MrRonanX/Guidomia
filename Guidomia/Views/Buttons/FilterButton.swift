@@ -25,8 +25,7 @@ final class FilterButton: UIButton {
         layer.borderColor = UIColor.black.cgColor
         
         backgroundColor = .white
-        setTitleColor(.appLightGray, for: .normal)
-        setTitleColor(.appLightGray, for: .highlighted)
+        setDefaultTitleColor()
         contentHorizontalAlignment = .leading
         
         var config = UIButton.Configuration.plain()

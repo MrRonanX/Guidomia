@@ -37,7 +37,6 @@ final class VehicleSectionCell: UITableViewHeaderFooterView {
         setupViews()
     }
     
-    
     func addData(vehicle: VehicleModel, section: Int) {
         self.section = section
         vehicleImage.image = UIImage(named: vehicle.imageName)
@@ -118,7 +117,6 @@ final class VehicleSectionCell: UITableViewHeaderFooterView {
     @objc private func sectionTapped() {
         guard let section = section else { return }
         delegate?.sectionTapped(section)
-
     }
 }
 

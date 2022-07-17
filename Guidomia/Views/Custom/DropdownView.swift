@@ -38,8 +38,6 @@ final class DropdownView: UIView {
         addGestureRecognizer(gesture)
     }
     
-    
-    
     private func setupTableView() {
         tableView.layer.cornerRadius = 5
         tableView.delegate = self

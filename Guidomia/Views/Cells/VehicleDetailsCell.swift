@@ -19,7 +19,8 @@ final class VehicleDetailsCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        setupTitle()
     }
     
     private func setupTitle() {
@@ -27,6 +28,7 @@ final class VehicleDetailsCell: UITableViewCell {
         title.numberOfLines = 0
         title.textAlignment = .left
         title.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(title)
         
         NSLayoutConstraint.activate([
@@ -35,7 +37,6 @@ final class VehicleDetailsCell: UITableViewCell {
             title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             title.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
-        
     }
     
     func setTitle(with text: String) {
@@ -46,7 +47,6 @@ final class VehicleDetailsCell: UITableViewCell {
         } else {
             let bulletText = NSAttributedStringHelper.createBulletedList(fromStringArray: text, font: .systemFont(ofSize: 18, weight: .bold))
             title.attributedText = bulletText
-
         }
     }
 }

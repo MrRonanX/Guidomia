@@ -23,7 +23,7 @@ final class MainVC: UIViewController {
         setRightBarItem()
         setTableView()
         createTableViewHeader()
-        decodeJson()
+        loadVehicles()
     }
     
     override func viewDidLayoutSubviews() {
@@ -37,6 +37,8 @@ final class MainVC: UIViewController {
         super.viewDidAppear(animated)
         filtersView.addShadows()
     }
+    
+    // MARK: - Nav Bar Setup
     
     private func setTitle() {
         let title = UILabel()
@@ -61,6 +63,8 @@ final class MainVC: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: item)
     }
+    
+    // MARK: - View Setup
     
     private func createTableViewHeader() {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 235 + view.frame.width * 0.65))
@@ -104,47 +108,51 @@ final class MainVC: UIViewController {
         view.addSubview(tableView)
     }
     
-    private func decodeJson() {
+    // MARK: - Datasource
+    
+    private func loadFromJson() {
         if let path = Bundle.main.path(forResource: "car_list", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                 let jsonData = try JSONDecoder().decode([VehicleModel].self, from: data)
-                vehicles = jsonData.compactMap { SectionModel(vehicle: $0)}
-                backupVehicles = vehicles
-                tableView.reloadData()
+                createSections(with: jsonData)
                 
             } catch {
-                print("Error")
+                presentAlert(with: "Error", message: "Invalid JSON. Please, check the content.", completion: nil)
             }
         }
     }
     
-    private func filterButtonTapped(_ button: UIButton) {
-        let dropdownView = DropdownView()
-        dropdownView.frame = view.bounds
-        let correctFrame = button.convert(button.bounds, to: view)
-        view.addSubview(dropdownView)
-        dropdownView.delegate = self
-        dropdownView.addDatasource(getFilterList(from: button))
-        dropdownView.setInitialFrame(correctFrame)
-    }
-    
-    private func getFilterList(from button: UIButton) -> [String] {
-        switch button.tag {
-        case 0:
-            var filterList = ["Any make"]
-            filterList.append(contentsOf: backupVehicles.map { $0.vehicle.make })
-            return filterList
-            
-        case 1:
-            var filterList = ["Any model"]
-            filterList.append(contentsOf: backupVehicles.map { $0.vehicle.model })
-            return filterList
-            
-        default: return [String]()
+    private func loadVehicles() {
+        PersistenceManager.retrieveVehicles { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let vehicles):
+                if vehicles.isEmpty {
+                    self.loadFromJson()
+                    return
+                }
+                self.createSections(with: vehicles)
+                
+            case .failure(let error):
+                self.presentAlert(with: "Error", message: error.rawValue, completion: nil)
+            }
         }
     }
+    
+    private func saveJson(_ data: [VehicleModel]) {
+        guard let possibleError = PersistenceManager.save(vehicles: data) else { return }
+        presentAlert(with: "Error", message: possibleError.rawValue, completion: nil)
+    }
+    
+    private func createSections(with loadedVehicles: [VehicleModel]) {
+        vehicles = loadedVehicles.compactMap { SectionModel(vehicle: $0)}
+        backupVehicles = vehicles
+        tableView.reloadData()
+    }
 }
+
+// MARK: - Table View Delegate
 
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -200,6 +208,8 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - Expending and Retracting Logic
+
 extension MainVC: VehicleSectionCellDelegate {
     func sectionTapped(_ section: Int) {
         vehicles[section].expended.toggle()
@@ -244,6 +254,8 @@ extension MainVC: VehicleSectionCellDelegate {
     }
 }
 
+// MARK: - Filter Logic
+
 extension MainVC: DropdownViewDelegate {
     func filterSelected(filter: String) {
         var makeFilters = backupVehicles.map { $0.vehicle.make }
@@ -265,6 +277,32 @@ extension MainVC: DropdownViewDelegate {
             } else {
                 applyMakeFilter(filtersView.currentMakeFilter)
             }
+        }
+    }
+    
+    private func filterButtonTapped(_ button: UIButton) {
+        let dropdownView = DropdownView()
+        dropdownView.frame = view.bounds
+        let correctFrame = button.convert(button.bounds, to: view)
+        view.addSubview(dropdownView)
+        dropdownView.delegate = self
+        dropdownView.addDatasource(getFilterList(from: button))
+        dropdownView.setInitialFrame(correctFrame)
+    }
+    
+    private func getFilterList(from button: UIButton) -> [String] {
+        switch button.tag {
+        case 0:
+            var filterList = ["Any make"]
+            filterList.append(contentsOf: backupVehicles.map { $0.vehicle.make })
+            return filterList
+            
+        case 1:
+            var filterList = ["Any model"]
+            filterList.append(contentsOf: backupVehicles.map { $0.vehicle.model })
+            return filterList
+            
+        default: return [String]()
         }
     }
     

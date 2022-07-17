@@ -92,6 +92,7 @@
 		34775A12288273CC00F01033 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				34775A2B2883FD8500F01033 /* NavigationController */,
 				34775A212883D27900F01033 /* Custom */,
 				34775A1E2883D24F00F01033 /* Buttons */,
 				34775A13288273D200F01033 /* Cells */,
@@ -127,6 +128,53 @@
 			path = Custom;
 			sourceTree = "<group>";
 		};
+		34775A262883FCC700F01033 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				34775A022881848000F01033 /* UIColor + ext.swift */,
+				34775A0628818A7600F01033 /* UIView + ext.swift */,
+				34775A1828828DF600F01033 /* String + ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		34775A272883FCD600F01033 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				34775A0E2881949200F01033 /* json */,
+				34775A0128817F4200F01033 /* fonts */,
+				34EAC9982881784F00A483B8 /* AppDelegate.swift */,
+				34EAC99A2881784F00A483B8 /* SceneDelegate.swift */,
+				34EAC9A12881785000A483B8 /* Assets.xcassets */,
+				34EAC9A32881785000A483B8 /* LaunchScreen.storyboard */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		34775A282883FCEE00F01033 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				34EAC99C2881784F00A483B8 /* MainVC.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		34775A2A2883FD2F00F01033 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				34775A162882741E00F01033 /* Constants.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		34775A2B2883FD8500F01033 /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				34775A042881850800F01033 /* GuidomiaNavigationController.swift */,
+			);
+			path = NavigationController;
+			sourceTree = "<group>";
+		};
 		34EAC98C2881784F00A483B8 = {
 			isa = PBXGroup;
 			children = (
@@ -146,21 +194,13 @@
 		34EAC9972881784F00A483B8 /* Guidomia */ = {
 			isa = PBXGroup;
 			children = (
+				34775A2A2883FD2F00F01033 /* Utilities */,
+				34775A282883FCEE00F01033 /* Screens */,
+				34775A272883FCD600F01033 /* Support */,
+				34775A262883FCC700F01033 /* Extensions */,
 				34775A12288273CC00F01033 /* Views */,
 				34775A0F288273A400F01033 /* Model */,
-				34775A0E2881949200F01033 /* json */,
-				34775A0128817F4200F01033 /* fonts */,
-				34EAC9982881784F00A483B8 /* AppDelegate.swift */,
-				34EAC99A2881784F00A483B8 /* SceneDelegate.swift */,
-				34EAC99C2881784F00A483B8 /* MainVC.swift */,
-				34775A042881850800F01033 /* GuidomiaNavigationController.swift */,
-				34775A022881848000F01033 /* UIColor + ext.swift */,
-				34775A0628818A7600F01033 /* UIView + ext.swift */,
-				34775A1828828DF600F01033 /* String + ext.swift */,
-				34EAC9A12881785000A483B8 /* Assets.xcassets */,
-				34EAC9A32881785000A483B8 /* LaunchScreen.storyboard */,
 				34EAC9A62881785000A483B8 /* Info.plist */,
-				34775A162882741E00F01033 /* Constants.swift */,
 			);
 			path = Guidomia;
 			sourceTree = "<group>";

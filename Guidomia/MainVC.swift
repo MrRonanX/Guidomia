@@ -7,25 +7,22 @@
 
 import UIKit
 
-class MainVC: UIViewController {
+final class MainVC: UIViewController {
     
-    private let mainLogo = MainPageLogo()
-    private let tableView = UITableView(frame: .zero, style: .grouped)
-    private let filtersView = FiltersView()
-    private var firstLoad = true
+    private let mainLogo        = MainPageLogo()
+    private let tableView       = UITableView(frame: .zero, style: .grouped)
+    private let filtersView     = FiltersView()
+    private var firstLoad       = true
     
-    private var backupVehicles = [SectionModel]()
-    private var vehicles = [SectionModel]()
+    private var backupVehicles  = [SectionModel]()
+    private var vehicles        = [SectionModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .red
         setTitle()
         setRightBarItem()
-        addImage()
-        addFilters()
         setTableView()
+        createTableViewHeader()
         decodeJson()
     }
     
@@ -40,7 +37,6 @@ class MainVC: UIViewController {
         super.viewDidAppear(animated)
         filtersView.addShadows()
     }
-    
     
     private func setTitle() {
         let title = UILabel()
@@ -66,34 +62,34 @@ class MainVC: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: item)
     }
     
-    private func addImage() {
-        view.addSubview(mainLogo)
-        
-        let screenWidth = view.widthAnchor
+    private func createTableViewHeader() {
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 235 + view.frame.width * 0.65))
         let ratio = 0.65
         
+        header.addSubview(mainLogo)
+        
         NSLayoutConstraint.activate([
-            mainLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            mainLogo.widthAnchor.constraint(equalTo: screenWidth),
-            mainLogo.heightAnchor.constraint(equalTo: screenWidth, multiplier: ratio)
+            mainLogo.topAnchor.constraint(equalTo: header.topAnchor),
+            mainLogo.centerXAnchor.constraint(equalTo: header.centerXAnchor),
+            mainLogo.widthAnchor.constraint(equalToConstant: header.frame.width),
+            mainLogo.heightAnchor.constraint(equalToConstant: header.frame.width * ratio)
         ])
-    }
-    
-    private func addFilters() {
-        view.addSubview(filtersView)
+        
+        header.addSubview(filtersView)
         filtersView.filterTapped = filterButtonTapped
         
         NSLayoutConstraint.activate([
             filtersView.topAnchor.constraint(equalTo: mainLogo.bottomAnchor),
-            filtersView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            filtersView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filtersView.leadingAnchor.constraint(equalTo: header.leadingAnchor),
+            filtersView.trailingAnchor.constraint(equalTo: header.trailingAnchor),
             filtersView.heightAnchor.constraint(equalToConstant: 235)
         ])
+        
+        tableView.tableHeaderView = header
     }
     
     private func setTableView() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.frame = view.bounds
         tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
@@ -104,14 +100,8 @@ class MainVC: UIViewController {
         
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
-        view.addSubview(tableView)
         
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: filtersView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        view.addSubview(tableView)
     }
     
     private func decodeJson() {
@@ -122,7 +112,7 @@ class MainVC: UIViewController {
                 vehicles = jsonData.compactMap { SectionModel(vehicle: $0)}
                 backupVehicles = vehicles
                 tableView.reloadData()
-
+                
             } catch {
                 print("Error")
             }
@@ -208,11 +198,6 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         
         return sectionView
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-    }
-    
 }
 
 extension MainVC: VehicleSectionCellDelegate {
@@ -275,9 +260,11 @@ extension MainVC: DropdownViewDelegate {
             filtersView.setModelFilter(filter)
             
             if filter != "Any model" {
-                filtersView.setMakeFilter(vehicles.filter { $0.vehicle.model == filter}.first?.vehicle.make ?? "Any make")
+                filtersView.setMakeFilter(backupVehicles.filter { $0.vehicle.model == filter}.first?.vehicle.make ?? "Any make")
+                applyModelFilter(filter)
+            } else {
+                applyMakeFilter(filtersView.currentMakeFilter)
             }
-            applyModelFilter(filter)
         }
     }
     

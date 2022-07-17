@@ -16,6 +16,9 @@ final class FiltersView: UIView {
     private let makeFilterButton = FilterButton()
     private let modelFilterButton = FilterButton()
     
+    var currentMakeFilter = "Any make"
+    var currentModelFilter = "Any model"
+    
     var filterTapped: ((UIButton) -> Void)?
     
     override init(frame: CGRect) {
@@ -35,8 +38,6 @@ final class FiltersView: UIView {
         modelFilterButton.layer.shadowOpacity = 0.7
         modelFilterButton.layer.shadowPath = UIBezierPath(rect: modelFilterButton.bounds).cgPath
     }
-    
-    
     
     private func setupViews() {
         backgroundColor = .white
@@ -121,15 +122,19 @@ final class FiltersView: UIView {
     
     func setMakeFilter(_ filter: String) {
         makeFilterButton.setTitle(filter, for: .normal)
+        currentMakeFilter = filter
         
         filter == "Any make" ? makeFilterButton.setDefaultTitleColor() : makeFilterButton.setSelectedTitleColor()
     }
     
     func setModelFilter(_ filter: String) {
         modelFilterButton.setTitle(filter, for: .normal)
+        currentModelFilter = filter
         
         filter == "Any model" ? modelFilterButton.setDefaultTitleColor() : modelFilterButton.setSelectedTitleColor()
     }
+    
+    
 }
 
 
